@@ -14,11 +14,6 @@ const PORT = config.get('port');
 // For Heroku
 app.enable('trust proxy');
 
-app.use((req, res, next) => {
-  console.log('SECURITY THING!', req.get('x-forwarded-proto'), req.protocol, req.secure);
-  next();
-});
-
 app.use(prerender);
 app.use(hostInjector);
 app.use(apiProxy);

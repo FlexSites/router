@@ -26,8 +26,8 @@ export default (req, res, next) => {
   // If a production API request isn't secure, redirect early.
   if (!req.secure && IS_PRODUCTION) {
     console.log(req.get('X-Forwarded-Proto'), req.secure, req.protocol);
-    log(`Redirecting insecure request: ${req.protocol}://${req.hostname}${req.originalUrl} to ${req.protocol}s://${req.hostname}${req.originalUrl}`);
-    return res.redirect(`${req.protocol}s://${req.hostname}${req.originalUrl}`);
+    log(`Redirecting insecure request: ${req.protocol}://${req.hostname}${req.originalUrl}`);
+    return res.redirect(`${req.protocol}s://${req.hostname}${req.originalUrl}`, 301);
   }
   let proxy = req.flex.isTest ? stage : prod;
 
