@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "nodemon index.js -e js,yaml,json,html",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "babel": {
