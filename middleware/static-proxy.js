@@ -50,6 +50,7 @@ export default (req, res, next) => {
   // Default object
   let ext = path.extname(req.url);
   if (!ext) {
+    res.set('Cache-Control', 'public, max-age=0, must-revalidate');
     ext = '.html';
     req.url += '/index.html';
   }

@@ -40,9 +40,9 @@ function getSite(type, value, isProd) {
   let host = isProd ? FLEXSITES_API : FLEXSITES_API_STAGE;
 
   return request(`${host}/api/v1/sites?filter[where][${type}]=${value}`)
-    .then((site = {}) => {
-      if (site === null) site = {};
-      if (Array.isArray(site)) site = site[0];
+    .then(site => site || {})
+    .then(site => {
+      if (Array.isArray(site)) site = site[0] || {};
       if (site._id) siteMap.host[site.host] = siteMap._id[site._id] = site;
       return site;
     });
