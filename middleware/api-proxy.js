@@ -4,7 +4,7 @@ import Debug from 'debug';
 
 let log = new Debug('flex:router:api');
 
-const IS_PRODUCTION = config.get('isProduction');
+const IS_DEVELOPMENT = config.get('isDevelopment');
 const FLEXSITES_API = config.get('flexsites.api.production');
 const FLEXSITES_API_STAGE = config.get('flexsites.api.stage');
 
@@ -24,8 +24,7 @@ export default (req, res, next) => {
   if (req.flex.host !== 'api.flexsites.io') return next();
 
   // If a production API request isn't secure, redirect early.
-  if (!req.secure && IS_PRODUCTION) {
-    console.log(req.get('X-Forwarded-Proto'), req.secure, req.protocol);
+  if (!req.secure && !IS_DEVELOPMENT) {
     log(`Redirecting insecure request: ${req.protocol}://${req.hostname}${req.originalUrl}`);
     return res.redirect(`${req.protocol}s://${req.hostname}${req.originalUrl}`, 301);
   }
