@@ -5,6 +5,7 @@ import siteInjector from './middleware/site-injector';
 import staticProxy from './middleware/static-proxy';
 import hostInjector from './middleware/host-injector';
 import prerender from 'prerender-node';
+import errorHandler from './lib/error-handler';
 
 let app = express();
 
@@ -19,6 +20,7 @@ app.use(hostInjector);
 app.use(apiProxy);
 app.use(siteInjector);
 app.use(staticProxy);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`FlexRouter listening on port: ${PORT}`);

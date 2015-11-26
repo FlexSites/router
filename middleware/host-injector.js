@@ -9,6 +9,5 @@ export default (req, res, next) => {
   if (host === 'host') host = process.env.OVERRIDE_HOST || 'flexsites.io';
   set(req, 'flex.host', host);
   set(req, 'flex.isTest', TEST_REGEXP.test(hostname));
-  console.log(req.flex);
   next();
 };
