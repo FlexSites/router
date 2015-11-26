@@ -1,5 +1,6 @@
 import { set } from 'object-path';
-import superagent from 'superagent-bluebird-promise';
+import Promise from 'bluebird';
+import superagent from 'superagent';
 import config from 'config';
 import Debug from 'debug';
 
@@ -27,8 +28,11 @@ function getSite(value, isProd) {
 
   let host = isProd ? FLEXSITES_API : FLEXSITES_API_STAGE;
 
-  return superagent
-    .get(`${host}/api/v1/sites?filter[where][host]=${value}`)
+  return Promise.fromNode(cb =>
+    superagent
+      .get(`${host}/api/v1/sites?filter[where][host]=${value}`)
+      .end(cb)
+    )
     .then(({ body }) => {
       if (Array.isArray(body)) body = body[0] || {};
       if (body._id) siteMap.host[body.host] = siteMap._id[body._id] = body;
