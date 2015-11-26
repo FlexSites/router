@@ -72,8 +72,7 @@ export default (req, res, next) => {
   }
 
   // Proxy Target
-  let envKey = req.flex.isTest ? 'stage' : 'production';
-  let proxy = getProxy(get(req, ['flex', 'site', 'assets', envKey], s3buckets[envKey]));
+  let proxy = getProxy(s3buckets[req.flex.isTest ? 'stage' : 'production']);
   proxy.web(req, res, {});
   proxy.on('error', next);
 };
