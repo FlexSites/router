@@ -35,7 +35,7 @@ function getSite(value, isProd) {
     )
     .then(({ body }) => {
       if (Array.isArray(body)) body = body[0] || {};
-      if (body._id) siteMap.host[body.host] = siteMap._id[body._id] = body;
+      if (body._id) siteMap[body._id] = body;
       return body;
     });
 }
