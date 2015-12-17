@@ -71,6 +71,8 @@ export default (req, res, next) => {
     req.url += '.gz';
   }
 
+  log(`Proxying URL ${req.url}`);
+
   // Proxy Target
   let proxy = getProxy(s3buckets[req.flex.isTest ? 'stage' : 'production']);
   proxy.web(req, res, {});
