@@ -3,12 +3,11 @@ import Debug from 'debug';
 
 let log = new Debug('flex:router:host-injector');
 
-const HOST_REGEXP = /^(?:https?:\/\/)?(?:www|local|test|stag(e|ing))?\.?(.*)$/;
 const TEST_REGEXP = /^(local|test|stag(e|ing))/;
 
 export default (req, res, next) => {
   let { hostname } = req;
-  let host = HOST_REGEXP.exec(hostname)[1];
+  let host = parseHost(hostname);
   if (host === 'host') host = process.env.OVERRIDE_HOST || 'flexsites.io';
 
   log(`Environment-less host determined "${host}"`);
@@ -17,3 +16,9 @@ export default (req, res, next) => {
   set(req, 'flex.isTest', TEST_REGEXP.test(hostname));
   next();
 };
+
+function parseHost(str = '') {
+  let parts = str.split('.');
+  parts[0] = parts[0].replace(/^(local|test|stag(e|ing))/i, '');
+  return parts.filter(part => !!part).join('.');
+}
